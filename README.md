@@ -8,7 +8,9 @@ sudo git clone https://github.com/Ahmed0or1/WriteBlocker.git
 ```md
 cd WriteBlocker
 ```
-
+```md
+pip install pyqt6
+```
 ```md
 python main.py
 ```
