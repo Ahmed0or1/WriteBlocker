@@ -18,10 +18,8 @@ class USBWriteBlocker(QMainWindow):
         self.setWindowTitle("USB Write Blocker")
         self.setGeometry(50,50,100,80)
 
-        # Set the window icon
-        self.setWindowIcon(QIcon('icon.png'))  # Replace with the path to your icon
+        self.setWindowIcon(QIcon('icon.png'))  
 
-        # Main layout setup
         main_layout = QVBoxLayout()
 
         # 1. Display the logo centered
