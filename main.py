@@ -24,10 +24,10 @@ class USBWriteBlocker(QMainWindow):
 
         # 1. Display the logo centered
         self.logo_label = QLabel(self)
-        pixmap = QPixmap('logo.png')  # Replace with the path to your logo
+        pixmap = QPixmap('logo.png')  
         self.logo_label.setPixmap(pixmap)
-        self.logo_label.setFixedSize(200, 100)  # Set fixed size for the logo
-        self.logo_label.setScaledContents(True)  # Ensure the image scales to fit
+        self.logo_label.setFixedSize(200, 100)  
+        self.logo_label.setScaledContents(True)  
         self.logo_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         main_layout.addWidget(self.logo_label)
 
@@ -38,7 +38,7 @@ class USBWriteBlocker(QMainWindow):
         main_layout.addWidget(self.update_button)
 
 
-        # 3. USB Selection combo box
+        # 3. (USB | External hard drive) Selection combo box
         self.usb_combo = QComboBox(self)
         self.refresh_usb_devices()
         main_layout.addWidget(self.usb_combo)
@@ -52,7 +52,7 @@ class USBWriteBlocker(QMainWindow):
         self.status_label = QLabel(self)
         self.status_label.setFixedSize(300, 281)
         self.status_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.status_label.hide()  # Hide initially
+        self.status_label.hide() 
         main_layout.addWidget(self.status_label)
 
         # 6. Stop WriteBlocker Button (Hidden initially)
@@ -60,7 +60,7 @@ class USBWriteBlocker(QMainWindow):
         self.stop_button.clicked.connect(self.stop_write_blocker)
         # Make the button red
         self.stop_button.setStyleSheet("background-color: red; color: white; font-weight: bold;")
-        self.stop_button.hide()  # Hide initially
+        self.stop_button.hide()  
         main_layout.addWidget(self.stop_button)
 
         # 7. Copyright information
@@ -120,16 +120,16 @@ class USBWriteBlocker(QMainWindow):
             if line.startswith("DeviceID") or line.strip() == "":
                 continue
             parts = line.split()
-            device_id = parts[0].strip()  # Physical device ID
-            device_name = " ".join(parts[1:]).strip()  # Device name (model)
+            device_id = parts[0].strip() 
+            device_name = " ".join(parts[1:]).strip() 
             device_info[device_id] = device_name
 
         for line in devices:
             if line.startswith("DeviceID") or line.strip() == "":
                 continue
             parts = line.split()
-            partition = parts[0]  # Logical drive (partition)
-            volume_name = parts[1] if len(parts) > 1 else ""  # Volume name if available
+            partition = parts[0]  
+            volume_name = parts[1] if len(parts) > 1 else ""  
             for device_id, device_name in device_info.items():
                 usb_devices.append(f"{device_name} ({partition} - {volume_name})")
 
@@ -151,12 +151,12 @@ class USBWriteBlocker(QMainWindow):
 
         # Show a success GIF if the operation worked
         if success:
-            movie = QMovie('usb.gif')  # Replace with your 'usb.gif' path
+            movie = QMovie('usb.gif') 
             self.status_label.setMovie(movie)
             self.status_label.show()
             movie.start()
-            self.stop_button.show()  # Show the stop button after starting
-            self.block_button.hide()  # Hide the start button
+            self.stop_button.show()  
+            self.block_button.hide() 
             self.setGeometry(50, 50, 100, 200)
 
         else:
@@ -171,7 +171,7 @@ class USBWriteBlocker(QMainWindow):
                 QMessageBox.critical(self, "Error", "Invalid USB device selection")
                 return False
 
-            drive_letter = match.group(1)  # Extracts the drive letter, e.g., 'D'
+            drive_letter = match.group(1) 
 
             # Create the diskpart script to remove readonly attribute
             script = f"""
@@ -197,7 +197,7 @@ class USBWriteBlocker(QMainWindow):
                 # Stop the movie and hide the status label and stop button
                 self.status_label.hide()
                 self.stop_button.hide()
-                self.block_button.show()  # Show the start button again
+                self.block_button.show()  
                 QMessageBox.information(self, "Stopped", "WriteBlocker has been stopped")
                 return True
 
@@ -222,7 +222,7 @@ class USBWriteBlocker(QMainWindow):
                 QMessageBox.critical(self, "Error", "Invalid USB device selection")
                 return False
 
-            drive_letter = match.group(1)  # Extracts the drive letter, e.g., 'D'
+            drive_letter = match.group(1)  # Extracts the drive letter,'D'
 
             # Create the diskpart script to block write access
             script = f"""
@@ -248,7 +248,6 @@ class USBWriteBlocker(QMainWindow):
             print(f"Error: {e}")
             return False
 
-# Main application loop
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = USBWriteBlocker()
